@@ -5,12 +5,12 @@ from sqlalchemy import create_engine
 
 #function to connect to user in database
 def connect_user():
-     connector=mysql.connector.connect(
+     connection=mysql.connector.connect(
          host="127.0.0.1",
          user="test",
          password="test"
      )
-     return connector
+     return connection
 
 def connect_db(cursor):
      while True:
@@ -21,7 +21,7 @@ def connect_db(cursor):
             
                # If execution reaches here, the database exists
                print("Connected to database:", db_name)
-               return cursor,db_name
+               return cursor
           except mysql.connector.Error as err:
             print("Database not found. Please enter a valid database name.")
      
@@ -49,17 +49,17 @@ def file_data(path):
 
 
 
-def get_database_connection(database_name):
-    engine = create_engine(f"mysql+mysqlconnector://test:test@127.0.0.1/{database_name}")
-    return engine
+
 
 # Get database connection
-def enter_data(database_name,data,t_name):
-      engine = get_database_connection(database_name)
-      try:
-        data.to_sql(name=t_name, con=engine, if_exists='append', index=False)
-        print("Data inserted successfully.")
-      except Exception as e:
-        print(f"An error occurred: {e}")
+def enter_data(cursor,data,t_name):
+      for _,row in data.iterrows():
+          query=f"Insert into {t_name} values("
+          for i in data:
+               query+=f"\'{row[i]}\',"
+          query=query.rstrip(',')
+          query+=");"
+          print(query)
+          cursor.execute(query)
           
 

@@ -2,9 +2,9 @@
 import function as f
 
 
-connector=f.connect_user()
+connection=f.connect_user()
 
-cursor=connector.cursor()
+cursor=connection.cursor()
 
 
 
@@ -16,7 +16,9 @@ for i in column:
     print(i)
 
 
-cursor,db_name=f.connect_db(cursor)
+cursor=f.connect_db(cursor)
+
+
 t_name=""
 while True:
   present=input("Table already present or not ,Enter yes or No:")
@@ -28,4 +30,6 @@ while True:
     break
   else:
      print("Enter the valid option")
-f.enter_data(db_name,data,t_name)
+f.enter_data(cursor,data,t_name)
+
+connection.commit()
