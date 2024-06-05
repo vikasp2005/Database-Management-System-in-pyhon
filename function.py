@@ -1,6 +1,6 @@
 import pandas as pd
 import mysql.connector
-from sqlalchemy import create_engine
+from tkinter import filedialog
 
 
 #function to connect to user in database
@@ -37,7 +37,7 @@ def create_table(cursor,column):
           if i<len(column)-1:
                command+=','
      command+=");"
-     print(command)
+
      cursor.execute(command)
      print("Table create sucessfully")
      return cursor,t_name
@@ -46,6 +46,23 @@ def create_table(cursor,column):
 def file_data(path):
      data=pd.read_excel(path)
      return data
+
+
+
+def select_file():
+    while True:
+         # Open a file dialog and allow the user to select a file
+         file_path = filedialog.askopenfilename()
+    
+         # Check if a file was selected
+         if file_path:
+           # Print the file path to the console
+           return file_path
+
+         else:
+             # Print a message if no file was selected
+             print("No file selected.")
+
 
 
 
@@ -59,7 +76,7 @@ def enter_data(cursor,data,t_name):
                query+=f"\'{row[i]}\',"
           query=query.rstrip(',')
           query+=");"
-          print(query)
+     
           cursor.execute(query)
           
 

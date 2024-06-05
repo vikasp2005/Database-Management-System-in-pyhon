@@ -8,8 +8,8 @@ cursor=connection.cursor()
 
 
 
-
-data=f.file_data("C:/Users/pviki/programing/pythonProject/Database-Management-System-in-python/dbms.xlsx")
+file_path=f.select_file()
+data=f.file_data(file_path)
 print("The column names in excel sheel:")
 column=list(data.columns)
 for i in column:
